@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+    name: nginx-memory
+    labels: 
+        app: nginx-memory
+spec:
+    template: 
+        metadata: 
+            name: myapp-pod
+            labels: 
+                app: nginx-memory
+        spec:
+            containers:
+                - name: nginx-container
+                  image: nginx:1.14.2
+                  ports:
+                    - containerPort: 80
+                  resources:
+                      requests:
+                        memory: 100Mi
+                      limits:
+                        memory: 100Mi
+            tolerations:
+            - key: "kubernetes.azure.com/scalesetpriority"
+              operator: "Equal"
+              value: "spot"
+              effect: "NoSchedule"
+            affinity:
+                nodeAffinity:
+                  requiredDuringSchedulingIgnoredDuringExecution:
+                    nodeSelectorTerms:
+                    - matchExpressions:
+                      - key: kubernetes.azure.com/mode
+                        operator: NotIn
+                        values:
+                        - system
+                        
+    replicas: 1
+    selector: 
+        matchLabels: 
+            app: nginx-memory
