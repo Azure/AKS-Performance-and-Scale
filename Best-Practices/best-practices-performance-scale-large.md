@@ -17,7 +17,7 @@ Keep in mind that *large* is a relative term. Kubernetes has a multi-dimensional
 
 In this article, you learn about:
 
-> [!div class="checklist"]
+> 
 >
 > * AKS and Kubernetes control plane scalability.
 > * Kubernetes Client best practices, including backoff, watches, and pagination.
