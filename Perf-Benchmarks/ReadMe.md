@@ -4,7 +4,7 @@ The first step of the script is to login to Az. An Az Account is required to run
 ### Subscription
 Subscription ID is required for the test. The script requires that the user have enough permission to deploy new resources within the subscription. 
 <div style="padding: 10px; border: 2px solid #df4577;">
-   <p style="font-weight:bold; font-size: 16px">⚠️Please make sure that there is enough quota for the cores required to run the script in the subscription.</p>
+   <p style="font-weight:bold; font-size: 16px">⚠️ Please make sure that there is enough quota for the cores required to run the script in the subscription. ⚠️</p>
    <ul>
       <li> By default, systempool uses `Standard_D8ds_v5` with 3 nodes and userpool users `Standard_D8ds_v5` and scale-out to 53 nodes. Which means, there needs to be at least 448 cores available for the SKU type Ddsv5 in the subscription & region
       <li> If there are enough cores for other SKU types, the SKU can be changed through the script parameters. Please see below for more information about the parameters</li>
@@ -58,4 +58,7 @@ Following parameters can be used to configure the AKS performance test
 | UserpoolScaleTargetNodeCount | Optional | Target node count which will be used in scale-out performance test. Default is 53, 50 additional node to the initial count | 53 |
 | MonitorPollIntervalSeconds | Optional | During the scale-out performance test, it checks the current number of the nodes every `MonitorPollIntervalSeconds` seconds until it reaches the target node count | 5 |
 | SilentMode | Optional | If there is no need to see detail logging message, set this to true | false |
+
+## Visualization
+The data from `output.json` can be visualized by running the `visual.py` script in a Jupyter / JupyterLab notebook. Each completed benchmarking test, by default, will append the new run data to the same `output.json` file in the format of an array of json objects. Running `visual.py` in a Jupyter notebook will generate summary statistics and scatterplots for all the results.
 
