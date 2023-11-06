@@ -1,4 +1,4 @@
-# About this project:
+
 Below document provides the steps to run a pre-created script that provisions an AKS cluster, scales up the nodepool to 50 Nodes and measures the time time taken to scale up, allowing customers to use it as a reproducable benchmark for node scaling on AKS.
 
 ## Prerequisites
