@@ -15,7 +15,7 @@ As you deploy and maintain clusters in AKS, you can use the following best pract
 
 In this article, you learn about:
 
-> [!div class="checklist"]
+> 
 >
 > * Tradeoffs and recommendations for autoscaling your workloads.
 > * Managing node scaling and efficiency based on your workload demands.
