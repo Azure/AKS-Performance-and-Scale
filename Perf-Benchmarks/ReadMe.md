@@ -1,7 +1,4 @@
 # About this project:
-
-This repoository's goal is to help AKS users understand Performance and Scalability best practices for AKS and Kubernetes and also help them benchmark certain scaling performance SLOs. 
-
 Below document provides the steps to run a pre-created script that provisions an AKS cluster, scales up the nodepool to 50 Nodes and measures the time time taken to scale up, allowing customers to use it as a reproducable benchmark for node scaling on AKS.
 
 ## Prerequisites
