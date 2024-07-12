@@ -2,7 +2,7 @@
 This page documents the test benchmarks for node sclaing latency as conducted by the AKS team. Your experience may vary slightly based on the below listed factors, in case you see significant variance in your own test runs or production environment please create an issue in this project and engage with AKS product Group.
 
 # AKS 1 Node Scale Out
-Below are the configurations used to conduct these benchmark tests
+Below are the configurations used to conduct these benchmark tests:
 * Scale Type: Manual
 * VM SKU: Standard_D8ds_v4
 * Networking: Overlay CNI
@@ -11,6 +11,7 @@ Below are the configurations used to conduct these benchmark tests
 * Node Image: Latest GA
 * Cluster Tier: Standard Tier Uptime SLA
 * Scale: 3 to 4 nodes
+* Latency is defined as the duration from scale requested to operation completed
 
 ### June 2024
 
@@ -25,7 +26,7 @@ Below are the configurations used to conduct these benchmark tests
 | 72s |	86s |	121s |	483s |	1998 |
 
 # AKS 50 Node Scale Out
-Below are the configurations used to conduct these benchmark tests
+Below are the configurations used to conduct these benchmark tests:
 * Scale Type: Manual
 * VM SKU: Standard_D8ds_v5
 * Networking: Overlay CNI
@@ -34,6 +35,7 @@ Below are the configurations used to conduct these benchmark tests
 * Node Image: Latest GA
 * Cluster Tier: Standard Tier Uptime SLA
 * Scale: 3 to 53 nodes
+* Latency is defined as the duration from scale requested to operation completed
 
 ### June 2024
 | P50 | P90 |  P95 | P99 | # of Runs|
