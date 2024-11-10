@@ -1,6 +1,14 @@
 
 This page documents the test benchmarks for node sclaing latency as conducted by the AKS team. Your experience may vary slightly based on the below listed factors, in case you see significant variance in your own test runs or production environment please create an issue in this project and engage with AKS product Group.
 
+> [!NOTE]
+> AKS is actively releasing performance improvements across all regions by the end of January 2025. If you are running tests prior to this date, please do so in the following regions:
+> - East US
+> - East Asia
+> - West Central US
+> - UK South
+
+
 # AKS 1 Node Scale Out
 Below are the configurations used to conduct these benchmark tests:
 * Scale Type: Manual
