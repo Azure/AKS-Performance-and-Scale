@@ -390,26 +390,32 @@ class ClusterCreationScenario : TestScenario {
     }
 
     [void] RunCustomScenarioLogic() {
-        $this.Logger.LogDebugMessage("Prepare cluster creation script")
-        $clusterCreateScript = "az aks create --name $($this.ClusterName) --resource-group $($this.ResourceGroupName)"
+        $this.Logger.LogDebugMessage("Prepare cluster creation command")
+        $clusterCreateArgs = @(
+            "aks", "create",
+            "--name", $this.ClusterName,
+            "--resource-group", $this.ResourceGroupName
+        )
         # k8s version - if not specified, latest version available in the region will be used. 
         if ($this.K8sVersion) {
-            $clusterCreateScript += " --kubernetes-version $($this.K8sVersion)"
+            $clusterCreateArgs += @("--kubernetes-version", $this.K8sVersion)
         }
         # Network configuration
-        $clusterCreateScript += " --network-plugin $($this.NetworkPlugin)"
+        $clusterCreateArgs += @("--network-plugin", $this.NetworkPlugin)
         if ($this.NetworkPlugin -eq "azure" -and $this.UseOverlayNetwork) {
-            $clusterCreateScript += " --network-plugin-mode overlay"
+            $clusterCreateArgs += @("--network-plugin-mode", "overlay")
         }
         # Systempool configuration
-        $clusterCreateScript += " --nodepool-name systempool --node-vm-size $($this.SystempoolVMSku) --node-count $($this.SystempoolNodeCount)"
+        $clusterCreateArgs += @(
+            "--nodepool-name", "systempool",
+            "--node-vm-size", $this.SystempoolVMSku,
+            "--node-count", $this.SystempoolNodeCount
+        )
         # Sku Tier
-        $clusterCreateScript += " --tier $($this.SkuTier)"
+        $clusterCreateArgs += @("--tier", $this.SkuTier)
 
-        $this.Logger.LogDebugMessage("The script to execute:")
-        $this.Logger.LogDebugMessage($clusterCreateScript)
-
-        $script = [ScriptBlock]::Create($clusterCreateScript)
+        $this.Logger.LogDebugMessage("The command to execute:")
+        $this.Logger.LogDebugMessage("az $($clusterCreateArgs -join ' ')")
 
         # Execute Cluster Creation script with retry
         $i = 0
@@ -427,8 +433,8 @@ class ClusterCreationScenario : TestScenario {
                 $global:LASTEXITCODE = 0;
                 $startTime = $(get-date)
                 
-                # Execute the prepared az aks create script. It will wait until the cluster is successfully provisioned with initial nodes
-                $result = &$script
+                # Execute the prepared az aks create command. It will wait until the cluster is successfully provisioned with initial nodes
+                $result = & az @clusterCreateArgs
                 
                 # Record the time of the cluster creation call
                 $elapsedTime = $(get-date) - $startTime
@@ -496,15 +502,21 @@ class NodepoolProvisionScenario : TestScenario {
     }
 
     [void] RunCustomScenarioLogic() {
-        $this.Logger.LogDebugMessage("Prepare nodepool provision script")
-        $nodePoolProvisionScript = "az aks nodepool add --resource-group $($this.ResourceGroupName) --cluster-name $($this.ClusterName) --name $($this.NodepoolName) --mode User"
-        $nodePoolProvisionScript += " --node-vm-size $($this.UserpoolVMSku) --node-count $($this.UserpoolNodeCount)"
-        $this.Logger.LogDebugMessage("The script to execute:")
-        $this.Logger.LogDebugMessage($nodePoolProvisionScript)
-        $script = [ScriptBlock]::Create($nodePoolProvisionScript)
+        $this.Logger.LogDebugMessage("Prepare nodepool provision command")
+        $nodePoolProvisionArgs = @(
+            "aks", "nodepool", "add",
+            "--resource-group", $this.ResourceGroupName,
+            "--cluster-name", $this.ClusterName,
+            "--name", $this.NodepoolName,
+            "--mode", "User",
+            "--node-vm-size", $this.UserpoolVMSku,
+            "--node-count", $this.UserpoolNodeCount
+        )
+        $this.Logger.LogDebugMessage("The command to execute:")
+        $this.Logger.LogDebugMessage("az $($nodePoolProvisionArgs -join ' ')")
         $startTime = $(get-date)
-        # Execute prepared nodepool provisioning script. The script will return once the nodepool is successfully provisioned with initial node count
-        $result = &$script
+        # Execute prepared nodepool provisioning command. The command will return once the nodepool is successfully provisioned with initial node count
+        $result = & az @nodePoolProvisionArgs
         # Record TestTimeDuration
         $this.TestTimeDuration = $(get-date) - $startTime
         $this.Logger.LogDebugMessage("Nodepool provision completed - $($this.TestTimeDuration.TotalSeconds) seconds")
